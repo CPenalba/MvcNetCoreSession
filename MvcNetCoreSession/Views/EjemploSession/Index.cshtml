@@ -1,7 +1,58 @@
-﻿<h1>Ejemplos Session</h1>
+﻿﻿@using MvcNetCoreSession.Helpers
+
+@{
+    string data = Context.Session.GetString("MASCOTA");
+    Mascota mascota = null;
+    if (Context.Session.GetString("MASCOTA") != null){
+        mascota = HelperJsonSession.DeserializeObject<Mascota>(data);
+    }
+}
+
+<h1>Ejemplos Session</h1>
+
+@if (mascota != null){
+    <h2 style="color:red">
+        @mascota.Nombre, @mascota.Raza, @mascota.Edad
+    </h2>
+}
+
+<h2 style="color:blue">
+    @Context.Session.GetString("nombre")
+</h2>
+
+<h2 style="color:red">
+    @Context.Session.GetString("hora")
+</h2>
 
 <ul class="list-group">
-	<li class="list-group-item">
-		<a asp-controller="EjemploSession" asp-action="SessionSimple">Session simple</a>
-	</li>
+    <li class="list-group-item">
+        <a asp-controller="EjemploSession"
+            asp-action="SessionSimple">
+            Session simple        
+        </a>
+    </li>
+    <li class="list-group-item list-group-item-warning">
+        <a asp-controller="EjemploSession"
+           asp-action="SessionMascotaObject">
+            Session Mascota Object
+        </a>
+    </li>
+    <li class="list-group-item">
+        <a asp-controller="EjemploSession"
+           asp-action="SessionMascotaJson">
+            Session Mascota Json
+        </a>
+    </li>
+    <li class="list-group-item">
+        <a asp-controller="EjemploSession"
+           asp-action="SessionMascota">
+            Session Binary
+        </a>
+    </li>
+    <li class="list-group-item">
+        <a asp-controller="EjemploSession"
+           asp-action="SessionCollection">
+            Session Collection
+        </a>
+    </li>
 </ul>

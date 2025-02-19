@@ -1,4 +1,5 @@
 ﻿using MvcNetCoreSession.Helpers;
+using Newtonsoft.Json;
 
 namespace MvcNetCoreSession.Extensions
 {
@@ -19,14 +20,14 @@ namespace MvcNetCoreSession.Extensions
             else
             {
                 //RECUPERAMOS EL OBJETO QUE TENEMOS ALMACENADO DENTRO DE NUESTRA KEY
-                T data = HelperJsonSession.DeserializeObject<T>(json);
+                T data = JsonConvert.DeserializeObject<T>(json);
                 return data;
             }
         }
 
         public static void SetObject(this ISession session, string key, object value)
         {
-            string data = HelperJsonSession.SerializeObject(value);
+            string data = JsonConvert.SerializeObject(value);
             //ALMACENAMOS EL JSON DENTRO DE SESSION
             session.SetString(key, data);
         }

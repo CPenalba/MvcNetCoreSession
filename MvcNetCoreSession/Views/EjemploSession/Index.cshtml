@@ -1,14 +1,22 @@
-﻿﻿@using MvcNetCoreSession.Helpers
+﻿@model List<Mascota>﻿
+
+@using MvcNetCoreSession.Helpers
 
 @{
-    string data = Context.Session.GetString("MASCOTA");
-    Mascota mascota = null;
-    if (Context.Session.GetString("MASCOTA") != null){
-        mascota = HelperJsonSession.DeserializeObject<Mascota>(data);
-    }
+    Mascota mascota = Context.Session.GetObject<Mascota>("MASCOTAOBJECT");
 }
 
 <h1>Ejemplos Session</h1>
+
+@if(Model != null){
+    <h1 style="color:blue">
+        Mascotas recuperadas: @Model.Count
+    </h1>
+} else{
+    <h1 style="color:red">
+        No tenemos mascotas del Helper
+    </h1>
+}
 
 @if (mascota != null){
     <h2 style="color:red">
@@ -35,6 +43,12 @@
         <a asp-controller="EjemploSession"
            asp-action="SessionMascotaObject">
             Session Mascota Object
+        </a>
+    </li>
+    <li class="list-group-item list-group-item-danger">
+        <a asp-controller="EjemploSession"
+           asp-action="SessionMascotaCollection">
+            Session Mascota Collection
         </a>
     </li>
     <li class="list-group-item">

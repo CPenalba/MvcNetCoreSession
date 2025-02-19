@@ -10,8 +10,42 @@ namespace MvcNetCoreSession.Controllers
 {
     public class EjemploSessionController : Controller
     {
+        HelperSessionContextAccessor helper;
+
+        public EjemploSessionController(HelperSessionContextAccessor helper)
+        {
+            this.helper = helper;
+        }
+
         public IActionResult Index()
         {
+            List<Mascota> mascotas = this.helper.GetMascotasSession();
+            return View(mascotas);
+        }
+
+        public IActionResult SessionMascotaCollection(string accion)
+        {
+            if (accion != null)
+            {
+                if (accion.ToLower() == "almacenar")
+                {
+                    List<Mascota> mascotas = new List<Mascota>
+                    {
+                        new Mascota {Nombre = "Patricio", Raza = "Estrella", Edad = 10},
+                        new Mascota{ Nombre = "Apu", Raza = "Nieve", Edad = 14},
+                        new Mascota {Nombre = "Donald", Raza = "Pato", Edad = 20},
+                        new Mascota {Nombre = "Pluto", Raza = "Perro", Edad = 12}
+                    };
+                    HttpContext.Session.SetObject("MASCOTAS", mascotas);
+                    ViewData["MENSAJE"] = "Coleccion Mascotas almacenada";
+                    return View();
+                }
+                else if (accion.ToLower() == "mostrar")
+                {
+                    List<Mascota> mascotas = HttpContext.Session.GetObject<List<Mascota>>("MASCOTAS");
+                    return View(mascotas);
+                }
+            }
             return View();
         }
 
